@@ -176,7 +176,34 @@ async function loginToUber(page: any, email: string, password: string) {
   const nextBtn = page.locator('button[type="submit"], button:has-text("Next"), button:has-text("Continue")').first();
   if (await nextBtn.count() > 0) {
     try { await nextBtn.click({ force: true, timeout: 5000 }); } catch (_) {}
-    await page.waitForTimeout(2500);
+  }
+
+  await page.waitForTimeout(4000);
+
+  // --- OTP BYPASS LOGIC ---
+  const pwdCount = await page.locator('input[type="password"]').count();
+  if (pwdCount === 0) {
+    console.log("[Login] No password field. Looking for 'More options' to bypass OTP...");
+    
+    // Find a button containing "More options", "Other ways", etc.
+    const moreBtn = page.locator('button').filter({ hasText: /More|Other|Try another/i }).first();
+    if (await moreBtn.count() > 0) {
+      await moreBtn.click({ force: true });
+      console.log("[Login] Clicked 'More options' button.");
+      await page.waitForTimeout(2000);
+      
+      // Find a button or role=button containing "Password"
+      const passOption = page.locator('button, [role="button"], [data-testid="credential-option"], li').filter({ hasText: /Password/i }).first();
+      if (await passOption.count() > 0) {
+        await passOption.click({ force: true });
+        console.log("[Login] Clicked 'Password' login option.");
+        await page.waitForTimeout(2000);
+      } else {
+        console.log("[Login] 'Password' option not found in the More menu.");
+      }
+    } else {
+      console.log("[Login] 'More options' button not found.");
+    }
   }
 
   await page.waitForSelector('input[type="password"]', { timeout: 40000 });

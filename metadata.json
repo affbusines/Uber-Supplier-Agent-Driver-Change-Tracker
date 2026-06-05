@@ -1,0 +1,6 @@
+{
+  "name": "Uber Driver Data Extractor",
+  "description": "A web-based internal supplier portal to extract driver profile data (avatar, contact, and trip count) from copied HTML and synchronize it with automated change detection tracking in a real-time dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

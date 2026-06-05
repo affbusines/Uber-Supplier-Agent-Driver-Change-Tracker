@@ -1,0 +1,11 @@
+{
+  "projectId": "uber-supplier-agent",
+  "appId": "1:758950016262:web:d27f3a0bd2c0733f6dda87",
+  "apiKey": "AIzaSyA0YkR04SMXfWbHD-m9Tp3BSMYEHnRCMjM",
+  "authDomain": "uber-supplier-agent.firebaseapp.com",
+  "databaseURL": "https://uber-supplier-agent-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "uber-supplier-agent.firebasestorage.app",
+  "messagingSenderId": "758950016262",
+  "measurementId": "G-DBHETQXBZK"
+}

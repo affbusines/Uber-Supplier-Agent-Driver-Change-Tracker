@@ -1,0 +1,29 @@
+{
+  "entities": {
+    "Driver": {
+      "title": "Driver",
+      "description": "Extracted driver metadata and contact logs from supplier.uber.com",
+      "type": "object",
+      "properties": {
+        "uuid": { "type": "string", "description": "Unique driver UUID parsed from tracking payload" },
+        "name": { "type": "string", "description": "Driver full name" },
+        "photo_url": { "type": "string", "description": "CDN profile picture URL" },
+        "tip_count": { "type": "number", "description": "Total trip counts parsed" },
+        "email": { "type": "string", "description": "Current registered email" },
+        "old_email": { "type": "string", "description": "Previous email if updated" },
+        "phone": { "type": "string", "description": "Current registered phone number" },
+        "old_phone": { "type": "string", "description": "Previous phone if updated" },
+        "has_contact_change": { "type": "boolean", "description": "Flags whether email or phone was changed since first import" },
+        "first_seen": { "type": "string", "format": "date-time", "description": "ISO timestamp representing when driver was first observed" },
+        "last_updated": { "type": "string", "format": "date-time", "description": "ISO timestamp of last extracted sync batch" }
+      },
+      "required": ["uuid", "name", "photo_url", "tip_count", "email", "phone", "has_contact_change", "first_seen", "last_updated"]
+    }
+  },
+  "firestore": {
+    "drivers/{driverUUID}": {
+      "schema": "Driver",
+      "description": "Index of all active driver profiles and tracked changes"
+    }
+  }
+}

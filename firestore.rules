@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global safety net: deny all requests by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions for validation
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && (request.auth.token.email_verified == true);
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation blueprint for Driver entity
+    function isValidDriver(data) {
+      return data.uuid is string && data.uuid.size() <= 128
+          && data.name is string && data.name.size() <= 200
+          && data.photo_url is string && data.photo_url.size() <= 2048
+          && data.tip_count is int && data.tip_count >= 0
+          && data.email is string && data.email.size() <= 256
+          && (!('old_email' in data) || (data.old_email is string && data.old_email.size() <= 256))
+          && data.phone is string && data.phone.size() <= 64
+          && (!('old_phone' in data) || (data.old_phone is string && data.old_phone.size() <= 64))
+          && data.has_contact_change is bool
+          && data.first_seen is string && data.first_seen.size() <= 64
+          && data.last_updated is string && data.last_updated.size() <= 64;
+    }
+
+    // Secure rule block for the 'drivers' collection
+    match /drivers/{driverUUID} {
+      allow read: if isEmailVerified();
+      
+      allow create: if isEmailVerified() 
+                    && isValidId(driverUUID)
+                    && isValidDriver(incoming())
+                    && incoming().uuid == driverUUID;
+
+      allow update: if isEmailVerified()
+                    && isValidId(driverUUID)
+                    && isValidDriver(incoming())
+                    && incoming().uuid == driverUUID
+                    && incoming().first_seen == existing().first_seen; // first_seen is immortal and immutable
+
+      allow delete: if isEmailVerified();
+    }
+  }
+}

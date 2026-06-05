@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, [data-theme="dark"]));
+
+/* Dark mode: HTML element-এ .dark class থাকলে activate হবে */
+/* App.tsx toggleTheme() already adds/removes .dark class — এটাই use করবো */
+
+/* ── Base dark background fix ── */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #09090b; /* zinc-950 */
+  color: #f4f4f5; /* zinc-100 */
+}
+
+/* ── Input fields dark fix ── */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #18181b !important; /* zinc-900 */
+  color: #f4f4f5 !important;
+  border-color: #27272a !important; /* zinc-800 */
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #71717a !important; /* zinc-500 */
+}
+
+/* ── Card/Panel dark fix ── */
+html.dark .bg-white {
+  background-color: #09090b !important; /* zinc-950 */
+}
+
+html.dark .bg-zinc-50 {
+  background-color: #18181b !important;
+}
+
+html.dark .text-zinc-900 {
+  color: #f4f4f5 !important;
+}
+
+html.dark .border-zinc-200 {
+  border-color: #27272a !important;
+}
+
+/* ── Table/Preview area dark fix ── */
+html.dark .divide-zinc-150 > * {
+  border-color: #27272a !important;
+}
+
+/* ── Preview cards in ImportHTML dark fix ── */
+html.dark .bg-zinc-50\/60 {
+  background-color: rgba(24, 24, 27, 0.6) !important;
+}
+
+html.dark .text-zinc-800 {
+  color: #e4e4e7 !important;
+}
+
+html.dark .text-zinc-705 {
+  color: #d4d4d8 !important;
+}
+
+html.dark .text-zinc-700 {
+  color: #d4d4d8 !important;
+}
+
+html.dark .text-zinc-650 {
+  color: #d4d4d8 !important;
+}
+
+html.dark .text-zinc-600 {
+  color: #a1a1aa !important;
+}

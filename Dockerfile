@@ -13,6 +13,10 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Explicitly install Playwright browsers for the exact version in package.json
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN npx playwright install chromium --with-deps
+
 # Build the React frontend (Vite) and the backend (esbuild)
 RUN npm run build
 

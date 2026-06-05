@@ -169,7 +169,7 @@ async function loginToUber(page: any, email: string, password: string) {
   await page.waitForTimeout(2000);
   console.log("[Login] URL:", page.url());
 
-  await page.waitForSelector('input[type="email"], input[name="email"]', { timeout: 20000 });
+  await page.waitForSelector('input[type="email"], input[name="email"]', { timeout: 40000 });
   await page.fill('input[type="email"], input[name="email"]', email);
   console.log("[Login] Email filled.");
 
@@ -179,7 +179,7 @@ async function loginToUber(page: any, email: string, password: string) {
     await page.waitForTimeout(2500);
   }
 
-  await page.waitForSelector('input[type="password"]', { timeout: 20000 });
+  await page.waitForSelector('input[type="password"]', { timeout: 40000 });
   await page.fill('input[type="password"]', password);
   console.log("[Login] Password filled.");
 
